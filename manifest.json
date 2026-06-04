@@ -1,11 +1,11 @@
 {
-  "name": "KALISTA – Kalkulator Status Gizi Kita",
+  "name": "KALISTA \u2013 Kalkulator Status Gizi Kita",
   "short_name": "KALISTA",
   "description": "Kalkulator Status Gizi Anak PMK No.2/2020 dengan Grafik KMS",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#fdf0f6",
-  "theme_color": "#9d2d7a",
+  "background_color": "#f0faf4",
+  "theme_color": "#0d7a5f",
   "orientation": "any",
   "icons": [
     {
@@ -21,6 +21,9 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["health", "medical"],
+  "categories": [
+    "health",
+    "medical"
+  ],
   "lang": "id"
 }
