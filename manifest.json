@@ -1,6 +1,6 @@
 {
-  "name": "Kalkulator Status Gizi Anak",
-  "short_name": "StatusGizi",
+  "name": "KALISTA – Kalkulator Status Gizi Kita",
+  "short_name": "KALISTA",
   "description": "Kalkulator Status Gizi Anak PMK No.2/2020 dengan Grafik KMS",
   "start_url": "./index.html",
   "display": "standalone",
