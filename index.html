@@ -103,16 +103,24 @@ input:focus,select:focus{border-color:var(--hl);box-shadow:0 0 0 3px rgba(224,10
 .s-pendek{color:#9a3412;background:#ffedd5}
 .s-normal-tb{color:#1e3a5f;background:#dbeafe}
 .s-tinggi{color:#0c4a6e;background:#e0f2fe}
+/* BB/U — Underweight */
+.s-bb-sgt-kurang{color:#9b1c1c;background:#ffe4e6}
+.s-bb-kurang{color:#9a3412;background:#ffedd5}
+.s-bb-normal{color:#1e3a5f;background:#dbeafe}
+.s-bb-risiko-lebih{color:#92400e;background:#fef3c7}
 /* Z-score colors */
 .c-gizi-buruk{color:#dc2626}.c-gizi-kurang{color:#ea580c}.c-gizi-baik{color:#2563eb}
 .c-risiko-lebih{color:#d97706}.c-gizi-lebih{color:#9333ea}.c-obesitas{color:#db2777}
 .c-sgt-pendek{color:#9333ea}.c-pendek{color:#ea580c}.c-normal-tb{color:#2563eb}.c-tinggi{color:#0284c7}
+.c-bb-sgt-kurang{color:#dc2626}.c-bb-kurang{color:#ea580c}.c-bb-normal{color:#2563eb}.c-bb-risiko-lebih{color:#d97706}
 /* Card borders */
 .b-gizi-buruk{border-color:#fca5a5!important}.b-gizi-kurang{border-color:#fdba74!important}
 .b-gizi-baik{border-color:#93c5fd!important}.b-risiko-lebih{border-color:#fde68a!important}
 .b-gizi-lebih{border-color:#d8b4fe!important}.b-obesitas{border-color:#fbcfe8!important}
 .b-sgt-pendek{border-color:#d8b4fe!important}.b-pendek{border-color:#fdba74!important}
 .b-normal-tb{border-color:#93c5fd!important}.b-tinggi{border-color:#7dd3fc!important}
+.b-bb-sgt-kurang{border-color:#fca5a5!important}.b-bb-kurang{border-color:#fdba74!important}
+.b-bb-normal{border-color:#93c5fd!important}.b-bb-risiko-lebih{border-color:#fde68a!important}
 
 /* Ref table */
 .rtbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
@@ -238,7 +246,7 @@ table.rtbl2 tr:hover td{background:#fce4f3}
         <div style="font-size:10.5px;color:rgba(255,255,255,.6);margin-top:2px;font-style:italic">Hitung Cepat, Pantau Tepat</div>
       </div>
     </div>
-    <p class="sub">Penilaian menggunakan tiga indikator: BB/TB, TB/U (Stunting), dan IMT/U sesuai usia anak</p>
+    <p class="sub">Penilaian menggunakan empat indikator: BB/U, BB/TB, TB/U (Stunting), dan IMT/U sesuai usia anak</p>
     <div class="pmktag">📋 PMK No. 2 Tahun 2020 – Standar Antropometri Anak (WHO Child Growth Standards &amp; WHO Reference 2007)</div>
   </div>
 </header>
@@ -268,9 +276,13 @@ table.rtbl2 tr:hover td{background:#fce4f3}
           <input type="text" id="nama" placeholder="Masukkan nama anak"/>
         </div>
         <div class="field">
+          <label>Nama Orang Tua</label>
+          <input type="text" id="ortu" placeholder="Masukkan nama orang tua/wali"/>
+        </div>
+        <div class="field">
           <label>Tanggal Lahir <span style="color:var(--red)">*</span></label>
           <input type="date" id="tgl"/>
-          <p class="fnote">* Wajib — menentukan indikator yang digunakan (BB/TB atau IMT/U)</p>
+          <p class="fnote">* Wajib — menentukan indikator yang digunakan (BB/U, BB/TB, atau IMT/U)</p>
         </div>
         <div class="field">
           <label>Jenis Kelamin <span style="color:var(--red)">*</span></label>
@@ -334,12 +346,26 @@ table.rtbl2 tr:hover td{background:#fce4f3}
 
         <!-- Tabs -->
         <div class="tabs">
-          <button class="tab active" onclick="showTab('bbtb',this)">BB/TB &amp; BB/PB<br><small style="font-weight:400;font-size:10px">0–5 tahun</small></button>
+          <button class="tab active" onclick="showTab('bbu',this)">BB/U<br><small style="font-weight:400;font-size:10px">0–60 bulan</small></button>
+          <button class="tab" onclick="showTab('bbtb',this)">BB/TB &amp; BB/PB<br><small style="font-weight:400;font-size:10px">0–5 tahun</small></button>
           <button class="tab" onclick="showTab('tbu',this)">TB/U &amp; PB/U<br><small style="font-weight:400;font-size:10px">Stunting 0–18 th</small></button>
           <button class="tab" onclick="showTab('imtu',this)">IMT/U<br><small style="font-weight:400;font-size:10px">5–18 tahun</small></button>
         </div>
 
-        <div id="tab-bbtb">
+        <div id="tab-bbu">
+          <table class="rtbl">
+            <thead><tr><th>Kategori Status Gizi</th><th>Ambang Batas (Z-Score BB/U)</th></tr></thead>
+            <tbody>
+              <tr><td><span class="dot" style="background:#c62828"></span>Berat Badan Sangat Kurang <em style="font-size:10px;color:#888">(Severely Underweight)</em></td><td>&lt; -3 SD</td></tr>
+              <tr><td><span class="dot" style="background:#ff9800"></span>Berat Badan Kurang <em style="font-size:10px;color:#888">(Underweight)</em></td><td>-3 SD s.d &lt; -2 SD</td></tr>
+              <tr><td><span class="dot" style="background:#43a047"></span>Berat Badan Normal <em style="font-size:10px;color:#888">(Normal)</em></td><td>-2 SD s.d +1 SD</td></tr>
+              <tr><td><span class="dot" style="background:#fbc02d"></span>Risiko Berat Badan Lebih <em style="font-size:10px;color:#888">(Possible Risk of Overweight)</em></td><td>&gt; +1 SD</td></tr>
+            </tbody>
+          </table>
+          <div class="infonote">ℹ️ <strong>BB/U</strong> (Berat Badan menurut Umur) digunakan untuk anak <strong>0–60 bulan</strong>. Mengacu pada <strong>WHO Child Growth Standards 2006</strong>. Indikator ini menggambarkan status berat badan secara umum, namun dapat dipengaruhi oleh kondisi akut maupun kronis sehingga perlu dilengkapi indikator BB/TB dan TB/U.</div>
+        </div>
+
+        <div id="tab-bbtb" style="display:none">
           <table class="rtbl">
             <thead><tr><th>Kategori Status Gizi</th><th>Ambang Batas (Z-Score)</th></tr></thead>
             <tbody>
@@ -367,7 +393,7 @@ table.rtbl2 tr:hover td{background:#fce4f3}
           <div class="infonote">ℹ️ <strong>TB/U</strong> (Tinggi/Panjang Badan menurut Umur) digunakan untuk mendeteksi <strong>stunting</strong> pada anak <strong>0 bulan – 18 tahun</strong>. Mengacu pada WHO Child Growth Standards 2006 (0–5 th) dan WHO Reference 2007 (5–18 th). Stunting menunjukkan kekurangan gizi <strong>kronis</strong>.</div>
         </div>
 
-
+        <div id="tab-imtu" style="display:none">
           <table class="rtbl">
             <thead><tr><th>Kategori Status Gizi</th><th>Ambang Batas (Z-Score)</th></tr></thead>
             <tbody>
@@ -437,6 +463,78 @@ table.rtbl2 tr:hover td{background:#fce4f3}
 </nav>
 
 <script>
+// ═══════════════════════════════════════════════════════
+//  WHO BB/U (Berat Badan menurut Umur), 0–60 bulan
+//  [SD3neg, SD2neg, SD1neg, median, SD1, SD2, SD3] — dalam kg
+// ═══════════════════════════════════════════════════════
+const BBU_B = {
+  0:[2.1,2.5,2.9,3.3,3.9,4.4,5.0],1:[2.9,3.4,3.9,4.5,5.1,5.8,6.6],
+  2:[3.8,4.3,4.9,5.6,6.3,7.1,8.0],3:[4.4,5.0,5.7,6.4,7.2,8.0,9.0],
+  4:[4.9,5.6,6.2,7.0,7.8,8.7,9.7],5:[5.3,6.0,6.7,7.5,8.4,9.3,10.4],
+  6:[5.7,6.4,7.1,7.9,8.8,9.8,10.9],7:[5.9,6.7,7.4,8.3,9.2,10.3,11.4],
+  8:[6.2,6.9,7.7,8.6,9.6,10.7,11.9],9:[6.4,7.1,8.0,8.9,9.9,11.0,12.3],
+  10:[6.6,7.4,8.2,9.2,10.2,11.4,12.7],11:[6.8,7.6,8.4,9.4,10.5,11.7,13.0],
+  12:[6.9,7.7,8.6,9.6,10.8,12.0,13.3],13:[7.1,7.9,8.8,9.9,11.0,12.3,13.7],
+  14:[7.2,8.1,9.0,10.1,11.3,12.6,14.0],15:[7.4,8.3,9.2,10.3,11.5,12.8,14.3],
+  16:[7.5,8.4,9.4,10.5,11.7,13.1,14.6],17:[7.7,8.6,9.6,10.7,12.0,13.4,14.9],
+  18:[7.8,8.8,9.8,10.9,12.2,13.7,15.3],19:[8.0,8.9,9.9,11.1,12.5,13.9,15.6],
+  20:[8.1,9.1,10.1,11.3,12.7,14.2,15.9],21:[8.2,9.2,10.3,11.5,12.9,14.5,16.2],
+  22:[8.4,9.4,10.5,11.8,13.2,14.7,16.5],23:[8.5,9.5,10.7,12.0,13.4,15.0,16.8],
+  24:[8.6,9.7,10.8,12.2,13.6,15.3,17.1],25:[8.8,9.8,11.0,12.4,13.9,15.5,17.5],
+  26:[8.9,10.0,11.2,12.5,14.1,15.8,17.8],27:[9.0,10.1,11.3,12.7,14.3,16.1,18.1],
+  28:[9.1,10.2,11.5,12.9,14.5,16.3,18.4],29:[9.2,10.4,11.7,13.1,14.8,16.6,18.7],
+  30:[9.4,10.5,11.8,13.3,15.0,16.9,19.0],31:[9.5,10.7,12.0,13.5,15.2,17.1,19.3],
+  32:[9.6,10.8,12.1,13.7,15.4,17.4,19.6],33:[9.7,10.9,12.3,13.8,15.6,17.6,19.9],
+  34:[9.8,11.1,12.4,14.0,15.9,17.9,20.2],35:[9.9,11.2,12.6,14.2,16.1,18.1,20.5],
+  36:[10.0,11.3,12.7,14.3,16.3,18.3,20.7],37:[10.1,11.4,12.9,14.5,16.5,18.6,21.0],
+  38:[10.2,11.5,13.0,14.7,16.7,18.8,21.3],39:[10.3,11.6,13.1,14.8,16.9,19.1,21.6],
+  40:[10.4,11.8,13.3,15.0,17.1,19.3,21.9],41:[10.5,11.9,13.4,15.2,17.3,19.6,22.2],
+  42:[10.6,12.0,13.5,15.3,17.5,19.8,22.5],43:[10.7,12.1,13.7,15.5,17.7,20.1,22.8],
+  44:[10.8,12.2,13.8,15.7,17.9,20.3,23.1],45:[10.9,12.3,13.9,15.8,18.1,20.6,23.4],
+  46:[11.0,12.4,14.0,16.0,18.3,20.8,23.7],47:[11.1,12.5,14.2,16.1,18.5,21.1,24.0],
+  48:[11.2,12.7,14.3,16.3,18.7,21.3,24.3],49:[11.2,12.8,14.4,16.5,18.9,21.6,24.6],
+  50:[11.3,12.9,14.6,16.6,19.1,21.8,24.9],51:[11.4,13.0,14.7,16.8,19.3,22.1,25.2],
+  52:[11.5,13.1,14.8,16.9,19.5,22.3,25.5],53:[11.6,13.2,15.0,17.1,19.7,22.6,25.8],
+  54:[11.7,13.3,15.1,17.3,19.9,22.8,26.2],55:[11.8,13.4,15.2,17.4,20.1,23.1,26.5],
+  56:[11.9,13.5,15.3,17.6,20.3,23.3,26.8],57:[12.0,13.6,15.5,17.7,20.5,23.6,27.1],
+  58:[12.1,13.8,15.6,17.9,20.7,23.9,27.4],59:[12.2,13.9,15.7,18.0,20.9,24.1,27.7],
+  60:[12.3,14.0,15.9,18.2,21.1,24.4,28.0]
+};
+
+const BBU_G = {
+  0:[2.0,2.4,2.8,3.2,3.7,4.2,4.8],1:[2.7,3.2,3.6,4.2,4.8,5.5,6.2],
+  2:[3.4,3.9,4.5,5.1,5.8,6.6,7.5],3:[4.0,4.5,5.2,5.8,6.6,7.5,8.5],
+  4:[4.4,5.0,5.7,6.4,7.3,8.2,9.3],5:[4.8,5.4,6.1,6.9,7.8,8.8,10.0],
+  6:[5.1,5.7,6.5,7.3,8.2,9.3,10.6],7:[5.3,6.0,6.8,7.6,8.6,9.8,11.1],
+  8:[5.6,6.3,7.0,7.9,9.0,10.2,11.6],9:[5.8,6.5,7.3,8.2,9.3,10.5,12.0],
+  10:[5.9,6.7,7.5,8.5,9.6,10.9,12.4],11:[6.1,6.9,7.7,8.7,9.9,11.2,12.8],
+  12:[6.3,7.0,7.9,8.9,10.1,11.5,13.1],13:[6.4,7.2,8.1,9.2,10.4,11.8,13.5],
+  14:[6.6,7.4,8.3,9.4,10.6,12.1,13.8],15:[6.7,7.6,8.5,9.6,10.9,12.4,14.1],
+  16:[6.9,7.7,8.7,9.8,11.1,12.6,14.5],17:[7.0,7.9,8.9,10.0,11.4,12.9,14.8],
+  18:[7.2,8.1,9.1,10.2,11.6,13.2,15.1],19:[7.3,8.2,9.2,10.4,11.8,13.5,15.4],
+  20:[7.5,8.4,9.4,10.6,12.1,13.7,15.7],21:[7.6,8.6,9.6,10.9,12.3,14.0,16.0],
+  22:[7.8,8.7,9.8,11.1,12.5,14.3,16.4],23:[7.9,8.9,10.0,11.3,12.8,14.6,16.7],
+  24:[8.1,9.0,10.2,11.5,13.0,14.8,17.0],25:[8.2,9.2,10.3,11.7,13.3,15.1,17.3],
+  26:[8.3,9.3,10.5,11.9,13.5,15.4,17.7],27:[8.5,9.5,10.7,12.1,13.7,15.7,18.0],
+  28:[8.6,9.6,10.9,12.3,14.0,15.9,18.3],29:[8.7,9.8,11.0,12.5,14.2,16.2,18.7],
+  30:[8.9,9.9,11.2,12.7,14.4,16.5,19.0],31:[9.0,10.1,11.4,12.9,14.7,16.8,19.3],
+  32:[9.1,10.2,11.5,13.1,14.9,17.0,19.6],33:[9.2,10.4,11.7,13.3,15.1,17.3,20.0],
+  34:[9.3,10.5,11.9,13.5,15.4,17.6,20.3],35:[9.5,10.6,12.0,13.7,15.6,17.9,20.7],
+  36:[9.6,10.8,12.2,13.9,15.8,18.1,21.0],37:[9.7,10.9,12.4,14.0,16.1,18.4,21.3],
+  38:[9.8,11.0,12.5,14.2,16.3,18.7,21.6],39:[9.9,11.2,12.7,14.4,16.5,19.0,22.0],
+  40:[10.0,11.3,12.8,14.6,16.7,19.2,22.3],41:[10.1,11.4,13.0,14.8,17.0,19.5,22.6],
+  42:[10.2,11.6,13.1,15.0,17.2,19.8,22.9],43:[10.3,11.7,13.3,15.2,17.4,20.0,23.2],
+  44:[10.4,11.8,13.4,15.3,17.6,20.3,23.6],45:[10.5,11.9,13.6,15.5,17.8,20.5,23.9],
+  46:[10.6,12.0,13.7,15.7,18.1,20.8,24.2],47:[10.7,12.2,13.9,15.9,18.3,21.1,24.5],
+  48:[10.8,12.3,14.0,16.1,18.5,21.3,24.8],49:[10.9,12.4,14.2,16.3,18.7,21.6,25.1],
+  50:[11.0,12.5,14.3,16.4,18.9,21.8,25.4],51:[11.1,12.6,14.5,16.6,19.2,22.1,25.7],
+  52:[11.2,12.8,14.6,16.8,19.4,22.4,26.1],53:[11.3,12.9,14.8,17.0,19.6,22.6,26.4],
+  54:[11.4,13.0,14.9,17.2,19.8,22.9,26.7],55:[11.5,13.1,15.0,17.3,20.0,23.1,27.0],
+  56:[11.6,13.3,15.2,17.5,20.2,23.4,27.3],57:[11.7,13.4,15.3,17.7,20.5,23.7,27.6],
+  58:[11.8,13.5,15.5,17.9,20.7,23.9,27.9],59:[11.9,13.6,15.6,18.0,20.9,24.2,28.2],
+  60:[12.0,13.7,15.7,18.2,21.1,24.5,28.5]
+};
+
 // ═══════════════════════════════════════════════════════
 //  WHO BB/TB BOYS (0–5 tahun, per cm, 45.0–120.0 cm)
 //  [SD3neg, SD2neg, SD1neg, median, SD1, SD2, SD3]
@@ -819,6 +917,23 @@ function statusFromZ_TBU(z) {
   return        {key:'tinggi',      label:'🔵 Tinggi',         desc:'Tall'};
 }
 
+function statusFromZ_BBU(z) {
+  if(z<-3) return{key:'bb-sgt-kurang', label:'🔴 Berat Badan Sangat Kurang', desc:'Severely Underweight'};
+  if(z<-2) return{key:'bb-kurang',     label:'🟠 Berat Badan Kurang',        desc:'Underweight'};
+  if(z<=1) return{key:'bb-normal',     label:'🟢 Berat Badan Normal',        desc:'Normal'};
+  return        {key:'bb-risiko-lebih',label:'🟡 Risiko Berat Badan Lebih',  desc:'Possible Risk of Overweight'};
+}
+
+function recBBU(key, nama) {
+  const n = nama||'Anak';
+  return {
+    'bb-sgt-kurang':`⚠️ <strong>${n} Berat Badan Sangat Kurang (Severely Underweight).</strong> Segera konsultasikan ke dokter/puskesmas untuk penanganan gizi lebih lanjut dan pemantauan intensif.`,
+    'bb-kurang':`🍽️ <strong>${n} Berat Badan Kurang (Underweight).</strong> Tingkatkan asupan kalori & protein: telur, ikan, daging, susu, kacang-kacangan. Konsultasikan ke tenaga gizi.`,
+    'bb-normal':`✅ <strong>Berat Badan ${n} Normal.</strong> Pertahankan pola makan sehat & seimbang, serta pemantauan rutin di posyandu.`,
+    'bb-risiko-lebih':`⚡ <strong>${n} Berisiko Berat Badan Lebih.</strong> Perhatikan pola makan dan aktivitas fisik agar berat badan tetap ideal sesuai usia.`,
+  }[key]||'';
+}
+
 function recTBU(key, nama) {
   const n = nama||'Anak';
   return {
@@ -865,6 +980,7 @@ function buildBlock(indLabel, z, status, col1Val, col1Lbl, col2Val, col2Lbl, col
 // ─── HITUNG ────────────────────────────────────────────
 function hitung() {
   const nama     = document.getElementById('nama').value.trim();
+  const ortu     = document.getElementById('ortu').value.trim();
   const posyandu = document.getElementById('posyandu').value.trim();
   const alamat   = document.getElementById('alamat').value.trim();
   const tgl      = document.getElementById('tgl').value;
@@ -881,6 +997,7 @@ function hitung() {
   const gLabel = gender==='L'?'♂ Laki-laki':'♀ Perempuan';
   const imt    = bb/(tb/100)**2;
 
+  const pakai_bbu  = bulan <= 60;
   const pakai_bbtb = bulan < 61;
   const pakai_imtu = bulan >= 61 && bulan <= 228;
   const pakai_tbu  = bulan <= 228;
@@ -889,19 +1006,39 @@ function hitung() {
   document.getElementById('rMain').classList.remove('rhidden');
   document.getElementById('rNama').textContent = nama||'Nama tidak diisi';
 
-  // Info baris: tambahkan posyandu & alamat
+  // Info baris: tambahkan orang tua, posyandu & alamat
   let infoText = `${ud.y} tahun ${ud.m} bulan · ${gLabel} · ${bulan} bulan`;
+  if(ortu)     infoText += ` · 👪 ${ortu}`;
   if(posyandu) infoText += ` · 🏠 ${posyandu}`;
   if(alamat)   infoText += ` · 📍 ${alamat}`;
   document.getElementById('rInfo').textContent = infoText;
 
+  const tBBU  = gender==='L'?BBU_B:BBU_G;
   const tBBTB = gender==='L'?BBTB_B:BBTB_G;
   const tIMTU = gender==='L'?IMTU_B:IMTU_G;
   const tTBU  = gender==='L'?TBU_B:TBU_G;
 
   let html = '';
-  let zBBTB=null, zTBU=null, zIMTU=null;
-  let stBBTB=null, stTBU=null, stIMTU=null;
+  let zBBU=null, zBBTB=null, zTBU=null, zIMTU=null;
+  let stBBU=null, stBBTB=null, stTBU=null, stIMTU=null;
+
+  // ── 0. BB/U (usia 0–60 bln)
+  if(pakai_bbu) {
+    const row = lookupRow(tBBU, bulan);
+    if(row) {
+      zBBU = calcZ(bb, row);
+      stBBU = statusFromZ_BBU(zBBU);
+      html += buildBlock(
+        'BB/U – Berat Badan menurut Umur',
+        zBBU, stBBU,
+        bb+' kg','Berat Badan',
+        bulan+' bln','Usia',
+        undefined,undefined,undefined,
+        `BB: ${bb} kg · Usia: ${ud.y} th ${ud.m} bln · ${stBBU.desc}`
+      );
+      html += `<div class="rec" style="margin-bottom:4px">${recBBU(stBBU.key, nama)}</div>`;
+    }
+  }
 
   // ── 1. BB/TB (usia 0–<5 th)
   if(pakai_bbtb) {
@@ -910,6 +1047,7 @@ function hitung() {
     if(row) {
       zBBTB = calcZ(bb, row);
       stBBTB = statusFromZ(zBBTB);
+      if(html) html += `<hr class="divider">`;
       html += buildBlock(
         'BB/TB – Berat Badan menurut Tinggi Badan',
         zBBTB, stBBTB,
@@ -969,12 +1107,17 @@ function hitung() {
   document.getElementById('indSection').innerHTML = html;
 
   // ── Ringkasan semua indikator
-  const anyResult = zBBTB!==null || zTBU!==null || zIMTU!==null;
+  const anyResult = zBBU!==null || zBBTB!==null || zTBU!==null || zIMTU!==null;
   if(anyResult) {
     document.getElementById('summaryWrap').classList.remove('rhidden');
 
     // Build summary rows dynamically
     let sumRows = '';
+    if(stBBU) sumRows += `
+      <div class="summary-row">
+        <span class="summary-key">🍼 BB/U (Underweight)</span>
+        <span><span class="sbadge s-${stBBU.key}" style="font-size:11px;padding:3px 10px">${stBBU.label}</span></span>
+      </div>`;
     if(stBBTB) sumRows += `
       <div class="summary-row">
         <span class="summary-key">📐 BB/TB (Wasting)</span>
@@ -1003,9 +1146,12 @@ function hitung() {
         <span class="summary-key">📊 IMT</span><span style="font-weight:600">${imt.toFixed(1)} kg/m²</span>
       </div>`;
 
-    // Posyandu & Alamat di ringkasan
-    if(posyandu||alamat) sumRows += `
+    // Orang Tua, Posyandu & Alamat di ringkasan
+    if(ortu||posyandu||alamat) sumRows += `
       <div class="summary-row" style="margin-top:6px;padding-top:10px;border-top:1.5px solid var(--bdr)">
+        <span class="summary-key">👪 Orang Tua</span><span style="font-weight:600">${ortu||'—'}</span>
+      </div>
+      <div class="summary-row">
         <span class="summary-key">🏠 Posyandu</span><span style="font-weight:600">${posyandu||'—'}</span>
       </div>
       <div class="summary-row">
@@ -1018,11 +1164,11 @@ function hitung() {
   }
 
   // Border warna kartu
-  const mainKey = (stBBTB||stTBU||stIMTU||{key:''}).key;
+  const mainKey = (stBBTB||stBBU||stTBU||stIMTU||{key:''}).key;
   document.getElementById('rcMain').className = `rcard b-${mainKey}`;
 
   // Render Grafik KMS
-  renderKMS(bulan, gender, bb, tb, imt, zBBTB, zTBU, zIMTU, stBBTB, stTBU, stIMTU, pakai_bbtb, pakai_imtu);
+  renderKMS(bulan, gender, bb, tb, imt, zBBU, zBBTB, zTBU, zIMTU, stBBU, stBBTB, stTBU, stIMTU, pakai_bbu, pakai_bbtb, pakai_imtu);
   document.getElementById('kmsSection').scrollIntoView({behavior:'smooth', block:'nearest'});
 
   // Simpan hasil untuk rekap
@@ -1030,6 +1176,7 @@ function hitung() {
   const tglLahirFmt = new Date(tglLahir).toLocaleDateString('id-ID',{day:'2-digit',month:'2-digit',year:'numeric'});
   lastResult = {
     nama: nama,
+    ortu: ortu,
     posyandu: posyandu,
     alamat: alamat,
     tglLahir: tglLahirFmt,
@@ -1038,6 +1185,8 @@ function hitung() {
     bb: bb.toFixed(1),
     tb: tb.toFixed(1),
     imt: imt.toFixed(1),
+    stBBU: stBBU ? stBBU.label.replace(/[🔴🟠🟢🟡🟣🔵]/u,'').trim() : '-',
+    zBBU: zBBU !== null ? zBBU.toFixed(2) : '-',
     stBBTB: stBBTB ? stBBTB.label.replace(/[🔴🟠🟢🟡🟣🔵]/u,'').trim() : '-',
     zBBTB: zBBTB !== null ? zBBTB.toFixed(2) : '-',
     stTBU: stTBU ? stTBU.label.replace(/[🟣🟠🟢🔵]/u,'').trim() : '-',
@@ -1051,6 +1200,7 @@ function hitung() {
 }
 
 function showTab(id,btn) {
+  document.getElementById('tab-bbu').style.display  = id==='bbu'?'':'none';
   document.getElementById('tab-bbtb').style.display = id==='bbtb'?'':'none';
   document.getElementById('tab-tbu').style.display  = id==='tbu'?'':'none';
   document.getElementById('tab-imtu').style.display = id==='imtu'?'':'none';
@@ -1059,14 +1209,14 @@ function showTab(id,btn) {
 }
 
 function resetForm() {
-  ['posyandu','alamat','nama','tgl','bb','tb'].forEach(id=>document.getElementById(id).value='');
+  ['posyandu','alamat','nama','ortu','tgl','bb','tb'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('gender').value='';
   document.getElementById('phMain').style.display='block';
   document.getElementById('rMain').classList.add('rhidden');
   document.getElementById('rcMain').className='rcard';
   lastResult = null;
   document.getElementById('kmsContent').innerHTML='<div class="kms-placeholder">📊 Hitung status gizi anak terlebih dahulu untuk melihat grafik KMS.</div>';
-  ['kms-bbtb','kms-tbu','kms-imtu'].forEach(destroyChart);
+  ['kms-bbu','kms-bbtb','kms-tbu','kms-imtu'].forEach(destroyChart);
 }
 
 // ─── REKAP ─────────────────────────────────────────────
@@ -1113,7 +1263,9 @@ function renderRekap() {
   const badgeClass = {
     'Gizi Buruk':'s-gizi-buruk','Gizi Kurang':'s-gizi-kurang','Gizi Baik':'s-gizi-baik',
     'Berisiko Gizi Lebih':'s-risiko-lebih','Gizi Lebih':'s-gizi-lebih','Obesitas':'s-obesitas',
-    'Sangat Pendek':'s-sgt-pendek','Pendek':'s-pendek','Normal':'s-normal-tb','Tinggi':'s-tinggi'
+    'Sangat Pendek':'s-sgt-pendek','Pendek':'s-pendek','Normal':'s-normal-tb','Tinggi':'s-tinggi',
+    'Berat Badan Sangat Kurang':'s-bb-sgt-kurang','Berat Badan Kurang':'s-bb-kurang',
+    'Berat Badan Normal':'s-bb-normal','Risiko Berat Badan Lebih':'s-bb-risiko-lebih'
   };
   function badge(txt) {
     if(!txt||txt==='-') return '<span style="color:#aaa">—</span>';
@@ -1122,8 +1274,9 @@ function renderRekap() {
   }
   let html = `<div class="rekap-table-wrap"><table class="rtbl2">
     <thead><tr>
-      <th>No</th><th>Posyandu</th><th>Alamat</th><th>Nama</th><th>Tgl Lahir</th><th>Usia</th><th>JK</th>
+      <th>No</th><th>Posyandu</th><th>Alamat</th><th>Nama</th><th>Orang Tua</th><th>Tgl Lahir</th><th>Usia</th><th>JK</th>
       <th>BB (kg)</th><th>TB (cm)</th><th>IMT</th>
+      <th>BB/U</th><th>Z BB/U</th>
       <th>BB/TB</th><th>Z BB/TB</th>
       <th>TB/U</th><th>Z TB/U</th>
       <th>IMT/U</th><th>Z IMT/U</th>
@@ -1135,12 +1288,15 @@ function renderRekap() {
       <td style="font-weight:600;color:var(--bl)">${r.posyandu||'—'}</td>
       <td style="color:var(--txm)">${r.alamat||'—'}</td>
       <td style="font-weight:600;color:var(--hd)">${r.nama||'—'}</td>
+      <td style="color:var(--txm)">${r.ortu||'—'}</td>
       <td>${r.tglLahir}</td>
       <td>${r.usia}</td>
       <td>${r.gender}</td>
       <td style="text-align:center">${r.bb}</td>
       <td style="text-align:center">${r.tb}</td>
       <td style="text-align:center">${r.imt}</td>
+      <td>${badge(r.stBBU)}</td>
+      <td style="text-align:center;font-weight:600;color:#b45309">${r.zBBU}</td>
       <td>${badge(r.stBBTB)}</td>
       <td style="text-align:center;font-weight:600;color:#9d2d7a">${r.zBBTB}</td>
       <td>${badge(r.stTBU)}</td>
@@ -1177,8 +1333,9 @@ function exportExcel() {
     ['Tanggal Export: '+new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'})],
     ['Berdasarkan: PMK No. 2 Tahun 2020 – WHO Child Growth Standards & WHO Reference 2007'],
     [],
-    ['No','Nama Posyandu','Alamat / Desa','Nama Anak','Tanggal Lahir','Usia','Jenis Kelamin',
+    ['No','Nama Posyandu','Alamat / Desa','Nama Anak','Nama Orang Tua','Tanggal Lahir','Usia','Jenis Kelamin',
      'BB (kg)','TB (cm)','IMT (kg/m²)',
+     'Status BB/U','Z-Score BB/U',
      'Status BB/TB','Z-Score BB/TB',
      'Status TB/U (Stunting)','Z-Score TB/U',
      'Status IMT/U','Z-Score IMT/U',
@@ -1186,9 +1343,10 @@ function exportExcel() {
   ];
   rekapData.forEach(r => {
     rows.push([
-      r.no, r.posyandu||'-', r.alamat||'-', r.nama||'-', r.tglLahir, r.usia,
+      r.no, r.posyandu||'-', r.alamat||'-', r.nama||'-', r.ortu||'-', r.tglLahir, r.usia,
       r.gender==='L'?'Laki-laki':'Perempuan',
       parseFloat(r.bb), parseFloat(r.tb), parseFloat(r.imt),
+      r.stBBU||'-', r.zBBU==='-'?'-':parseFloat(r.zBBU),
       r.stBBTB||'-', r.zBBTB==='-'?'-':parseFloat(r.zBBTB),
       r.stTBU||'-', r.zTBU==='-'?'-':parseFloat(r.zTBU),
       r.stIMTU||'-', r.zIMTU==='-'?'-':parseFloat(r.zIMTU),
@@ -1204,15 +1362,16 @@ function exportExcel() {
 
   // Column widths
   ws['!cols'] = [
-    {wch:5},{wch:20},{wch:24},{wch:22},{wch:14},{wch:16},{wch:14},
+    {wch:5},{wch:20},{wch:24},{wch:22},{wch:22},{wch:14},{wch:16},{wch:14},
     {wch:9},{wch:9},{wch:12},
+    {wch:24},{wch:14},
     {wch:20},{wch:14},
     {wch:26},{wch:14},
     {wch:20},{wch:14},
     {wch:16}
   ];
   // Merge title row
-  ws['!merges'] = [{s:{r:0,c:0},e:{r:0,c:16}}];
+  ws['!merges'] = [{s:{r:0,c:0},e:{r:0,c:19}}];
 
   XLSX.utils.book_append_sheet(wb, ws, 'Rekap Status Gizi');
   const fname = 'Rekap_StatusGizi_'+new Date().toLocaleDateString('id-ID').replace(/\//g,'-')+'.xlsx';
@@ -1231,6 +1390,24 @@ function destroyChart(id) {
     kmsChartInstances[id].destroy();
     delete kmsChartInstances[id];
   }
+}
+
+function buildKMSData_BBU(usiaBulanVal, bbVal, gender) {
+  const tbl = gender==='L' ? BBU_B : BBU_G;
+  const keys = Object.keys(tbl).map(Number).sort((a,b)=>a-b);
+  const idx = keys.findIndex(k=>k>=usiaBulanVal);
+  const start = Math.max(0, idx-6);
+  const end = Math.min(keys.length-1, idx+8);
+  const sliced = keys.slice(start, end+1);
+
+  const labels = sliced;
+  const sd3neg = sliced.map(k=>tbl[k][0]);
+  const sd2neg = sliced.map(k=>tbl[k][1]);
+  const median = sliced.map(k=>tbl[k][3]);
+  const sd2    = sliced.map(k=>tbl[k][5]);
+  const sd3    = sliced.map(k=>tbl[k][6]);
+
+  return {labels, sd3neg, sd2neg, median, sd2, sd3, childAge:[usiaBulanVal], childBB:[bbVal]};
 }
 
 function buildKMSData_BBTB(tbVal, bbVal, gender) {
@@ -1297,7 +1474,7 @@ function renderKMSChart(canvasId, chartData, xLabel, yLabel, childX, childY, sta
   const statusColors = {
     'gizi-buruk':'#dc2626','gizi-kurang':'#ea580c','gizi-baik':'#16a34a',
     'risiko-lebih':'#d97706','gizi-lebih':'#9333ea','obesitas':'#db2777',
-    'sgt-pendek':'#9333ea','pendek':'#ea580c','normal-tb':'#16a34a','tinggi':'#0284c7'
+    'sgt-pendek':'#9333ea','pendek':'#ea580c','normal-tb':'#16a34a','tinggi':'#0284c7','bb-sgt-kurang':'#dc2626','bb-kurang':'#ea580c','bb-normal':'#16a34a','bb-risiko-lebih':'#d97706'
   };
   const dotColor = statusColors[statusKey] || '#0d9e6e';
 
@@ -1342,13 +1519,27 @@ function renderKMSChart(canvasId, chartData, xLabel, yLabel, childX, childY, sta
   });
 }
 
-function renderKMS(bulan, gender, bb, tb, imt, zBBTB, zTBU, zIMTU, stBBTB, stTBU, stIMTU, pakai_bbtb, pakai_imtu) {
+function renderKMS(bulan, gender, bb, tb, imt, zBBU, zBBTB, zTBU, zIMTU, stBBU, stBBTB, stTBU, stIMTU, pakai_bbu, pakai_bbtb, pakai_imtu) {
   const container = document.getElementById('kmsContent');
 
   // Build tabs
   let tabs = '';
   let panels = '';
   let firstTab = '';
+
+  if(pakai_bbu && zBBU!==null) {
+    firstTab = firstTab||'kms-bbu';
+    tabs += `<button class="kms-tab${firstTab==='kms-bbu'?' active':''}" onclick="switchKmsTab('kms-bbu',this)">🍼 BB/U</button>`;
+    panels += `<div id="panel-kms-bbu" class="${firstTab==='kms-bbu'?'':'kms-hidden'}">
+      <div class="kms-canvas-wrap"><canvas id="canvas-kms-bbu" height="260"></canvas></div>
+      <div class="kms-legend">
+        <div class="kms-leg-item"><div class="kms-leg-dot" style="background:#22c55e"></div>Median (0 SD)</div>
+        <div class="kms-leg-item"><div class="kms-leg-dot" style="background:#fb923c"></div>±2 SD</div>
+        <div class="kms-leg-item"><div class="kms-leg-dot" style="background:#fca5a5"></div>±3 SD</div>
+        <div class="kms-leg-item"><div class="kms-leg-dot" style="background:${stBBU?'#'+getStatusHex(stBBU.key):'#0d9e6e'};border-radius:50%;height:12px;width:12px"></div>Posisi Anak (Z: ${zBBU>=0?'+':''}${zBBU.toFixed(2)})</div>
+      </div>
+    </div>`;
+  }
 
   if(pakai_bbtb && zBBTB!==null) {
     firstTab = firstTab||'kms-bbtb';
@@ -1399,6 +1590,10 @@ function renderKMS(bulan, gender, bb, tb, imt, zBBTB, zTBU, zIMTU, stBBTB, stTBU
 
   // Render charts after DOM update
   setTimeout(()=>{
+    if(pakai_bbu && zBBU!==null) {
+      const d = buildKMSData_BBU(bulan, bb, gender);
+      renderKMSChart('canvas-kms-bbu', d, 'Usia (bulan)', 'Berat Badan (kg)', bulan, bb, stBBU?stBBU.key:'bb-normal');
+    }
     if(pakai_bbtb && zBBTB!==null) {
       const d = buildKMSData_BBTB(tb, bb, gender);
       renderKMSChart('canvas-kms-bbtb', d, 'Tinggi Badan (cm)', 'Berat Badan (kg)', tb, bb, stBBTB?stBBTB.key:'gizi-baik');
@@ -1415,12 +1610,12 @@ function renderKMS(bulan, gender, bb, tb, imt, zBBTB, zTBU, zIMTU, stBBTB, stTBU
 }
 
 function getStatusHex(key) {
-  const m = {'gizi-buruk':'dc2626','gizi-kurang':'ea580c','gizi-baik':'16a34a','risiko-lebih':'d97706','gizi-lebih':'9333ea','obesitas':'db2777','sgt-pendek':'9333ea','pendek':'ea580c','normal-tb':'16a34a','tinggi':'0284c7'};
+  const m = {'gizi-buruk':'dc2626','gizi-kurang':'ea580c','gizi-baik':'16a34a','risiko-lebih':'d97706','gizi-lebih':'9333ea','obesitas':'db2777','sgt-pendek':'9333ea','pendek':'ea580c','normal-tb':'16a34a','tinggi':'0284c7','bb-sgt-kurang':'dc2626','bb-kurang':'ea580c','bb-normal':'16a34a','bb-risiko-lebih':'d97706'};
   return m[key]||'e91e63';
 }
 
 function switchKmsTab(id, btn) {
-  ['kms-bbtb','kms-tbu','kms-imtu'].forEach(t=>{
+  ['kms-bbu','kms-bbtb','kms-tbu','kms-imtu'].forEach(t=>{
     const p=document.getElementById('panel-'+t);
     if(p) p.classList.toggle('kms-hidden', t!==id);
   });
@@ -1439,7 +1634,7 @@ function renderKMSChart(canvasId, chartData, xLabel, yLabel, childX, childY, sta
   const statusColors = {
     'gizi-buruk':'#dc2626','gizi-kurang':'#ea580c','gizi-baik':'#16a34a',
     'risiko-lebih':'#d97706','gizi-lebih':'#9333ea','obesitas':'#db2777',
-    'sgt-pendek':'#9333ea','pendek':'#ea580c','normal-tb':'#16a34a','tinggi':'#0284c7'
+    'sgt-pendek':'#9333ea','pendek':'#ea580c','normal-tb':'#16a34a','tinggi':'#0284c7','bb-sgt-kurang':'#dc2626','bb-kurang':'#ea580c','bb-normal':'#16a34a','bb-risiko-lebih':'#d97706'
   };
   const dotColor = statusColors[statusKey] || '#0d9e6e';
 
