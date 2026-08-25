@@ -348,7 +348,7 @@ table.rtbl2 tr:hover td{background:#fce4f3}
         <div class="tabs">
           <button class="tab active" onclick="showTab('bbu',this)">BB/U<br><small style="font-weight:400;font-size:10px">0–60 bulan</small></button>
           <button class="tab" onclick="showTab('bbtb',this)">BB/TB &amp; BB/PB<br><small style="font-weight:400;font-size:10px">0–5 tahun</small></button>
-          <button class="tab" onclick="showTab('tbu',this)">TB/U &amp; PB/U<br><small style="font-weight:400;font-size:10px">Stunting 0–18 th</small></button>
+          <button class="tab" onclick="showTab('tbu',this)">TB/U &amp; PB/U<br><small style="font-weight:400;font-size:10px">Stunting 0–60 bulan</small></button>
           <button class="tab" onclick="showTab('imtu',this)">IMT/U<br><small style="font-weight:400;font-size:10px">5–18 tahun</small></button>
         </div>
 
@@ -390,7 +390,7 @@ table.rtbl2 tr:hover td{background:#fce4f3}
               <tr><td><span class="dot" style="background:#0288d1"></span>Tinggi <em style="font-size:10px;color:#888">(Tall)</em></td><td>&gt; +3 SD</td></tr>
             </tbody>
           </table>
-          <div class="infonote">ℹ️ <strong>TB/U</strong> (Tinggi/Panjang Badan menurut Umur) digunakan untuk mendeteksi <strong>stunting</strong> pada anak <strong>0 bulan – 18 tahun</strong>. Mengacu pada WHO Child Growth Standards 2006 (0–5 th) dan WHO Reference 2007 (5–18 th). Stunting menunjukkan kekurangan gizi <strong>kronis</strong>.</div>
+          <div class="infonote">ℹ️ <strong>TB/U</strong> (Tinggi/Panjang Badan menurut Umur) digunakan untuk mendeteksi <strong>stunting</strong> pada anak <strong>0–60 bulan</strong>, sesuai PMK No. 2 Tahun 2020. Mengacu pada WHO Child Growth Standards 2006. Stunting menunjukkan kekurangan gizi <strong>kronis</strong>.</div>
         </div>
 
         <div id="tab-imtu" style="display:none">
@@ -1007,7 +1007,7 @@ function hitung() {
   const pakai_bbu  = bulan <= 60;
   const pakai_bbtb = bulan < 61;
   const pakai_imtu = bulan >= 61 && bulan <= 228;
-  const pakai_tbu  = bulan <= 228;
+  const pakai_tbu  = bulan <= 60;
 
   document.getElementById('phMain').style.display='none';
   document.getElementById('rMain').classList.remove('rhidden');
@@ -1067,7 +1067,7 @@ function hitung() {
     }
   }
 
-  // ── 2. TB/U – Stunting (usia 0–18 th)
+  // ── 2. TB/U – Stunting (usia 0–60 bulan, sesuai PMK No.2/2020)
   if(pakai_tbu) {
     const row = lookupRow(tTBU, bulan);
     if(row) {
