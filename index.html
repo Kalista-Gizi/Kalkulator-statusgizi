@@ -397,12 +397,11 @@ table.rtbl2 tr:hover td{background:#fce4f3}
           <table class="rtbl">
             <thead><tr><th>Kategori Status Gizi</th><th>Ambang Batas (Z-Score)</th></tr></thead>
             <tbody>
-              <tr><td><span class="dot" style="background:#c62828"></span>Gizi Buruk <em style="font-size:10px;color:#888">(Severely Wasted)</em></td><td>&lt; -3 SD</td></tr>
-              <tr><td><span class="dot" style="background:#ff9800"></span>Gizi Kurang <em style="font-size:10px;color:#888">(Wasted/Thinness)</em></td><td>-3 SD s.d &lt; -2 SD</td></tr>
+              <tr><td><span class="dot" style="background:#c62828"></span>Gizi Buruk <em style="font-size:10px;color:#888">(Severely Thinness)</em></td><td>&lt; -3 SD</td></tr>
+              <tr><td><span class="dot" style="background:#ff9800"></span>Gizi Kurang <em style="font-size:10px;color:#888">(Thinness)</em></td><td>-3 SD s.d &lt; -2 SD</td></tr>
               <tr><td><span class="dot" style="background:#43a047"></span>Gizi Baik <em style="font-size:10px;color:#888">(Normal)</em></td><td>-2 SD s.d +1 SD</td></tr>
-              <tr><td><span class="dot" style="background:#fbc02d"></span>Berisiko Gizi Lebih <em style="font-size:10px;color:#888">(Possible Risk)</em></td><td>+1 SD s.d +2 SD</td></tr>
-              <tr><td><span class="dot" style="background:#ab47bc"></span>Gizi Lebih <em style="font-size:10px;color:#888">(Overweight)</em></td><td>+2 SD s.d +3 SD</td></tr>
-              <tr><td><span class="dot" style="background:#e91e63"></span>Obesitas <em style="font-size:10px;color:#888">(Obese)</em></td><td>&gt; +3 SD</td></tr>
+              <tr><td><span class="dot" style="background:#ab47bc"></span>Gizi Lebih <em style="font-size:10px;color:#888">(Overweight)</em></td><td>+1 SD s.d +2 SD</td></tr>
+              <tr><td><span class="dot" style="background:#e91e63"></span>Obesitas <em style="font-size:10px;color:#888">(Obese)</em></td><td>&gt; +2 SD</td></tr>
             </tbody>
           </table>
           <div class="infonote">ℹ️ <strong>IMT/U</strong> (Indeks Massa Tubuh menurut Umur) digunakan untuk anak <strong>5–18 tahun</strong>. Mengacu pada <strong>WHO Reference 2007</strong>. Lebih sensitif untuk penapisan gizi lebih dan obesitas.</div>
@@ -917,6 +916,14 @@ function statusFromZ_TBU(z) {
   return        {key:'tinggi',      label:'🔵 Tinggi',         desc:'Tall'};
 }
 
+function statusFromZ_IMTU(z) {
+  if(z<-3) return{key:'gizi-buruk',  label:'🔴 Gizi Buruk',  desc:'Severely Thinness'};
+  if(z<-2) return{key:'gizi-kurang', label:'🟠 Gizi Kurang', desc:'Thinness'};
+  if(z<=1) return{key:'gizi-baik',   label:'🟢 Gizi Baik',   desc:'Normal'};
+  if(z<=2) return{key:'gizi-lebih',  label:'🟣 Gizi Lebih',  desc:'Overweight'};
+  return        {key:'obesitas',     label:'🔵 Obesitas',    desc:'Obese'};
+}
+
 function statusFromZ_BBU(z) {
   if(z<-3) return{key:'bb-sgt-kurang', label:'🔴 Berat Badan Sangat Kurang', desc:'Severely Underweight'};
   if(z<-2) return{key:'bb-kurang',     label:'🟠 Berat Badan Kurang',        desc:'Underweight'};
@@ -1084,7 +1091,7 @@ function hitung() {
     const row = lookupRow(tIMTU, bulan);
     if(row) {
       zIMTU = calcZ(imt, row);
-      stIMTU = statusFromZ(zIMTU);
+      stIMTU = statusFromZ_IMTU(zIMTU);
       if(html) html += `<hr class="divider">`;
       html += buildBlock(
         'IMT/U – Indeks Massa Tubuh menurut Umur',
